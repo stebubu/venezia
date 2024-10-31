@@ -121,7 +121,7 @@ def main():
                 
                 # List available files in S3
                 s3_files = list_s3_files(bucket_name, prefix, aws_credentials)
-                s3_files= 's3://saferplaces.co/Venezia/dtm_bacino1.bld.tif'
+                
                 
                 if s3_files:
                     st.sidebar.success(f"Found {len(s3_files)} GeoTIFF files")
