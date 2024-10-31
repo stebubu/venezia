@@ -24,9 +24,9 @@ def get_aws_credentials():
     3. User input in the sidebar
     """
     aws_credentials = {
-        'access_key_id': AKIA5D4NBVNJZILXSQ23,
-        'secret_access_key': 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,
-        'region': us-east-1
+        'access_key_id': 'AKIA5D4NBVNJZILXSQ23',
+        'secret_access_key': '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',
+        'region': 'us-east-1'
     }
     
     # Try to get from streamlit secrets
