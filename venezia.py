@@ -19,9 +19,11 @@ from urllib.parse import urlparse
 # AWS S3 Configuration
 def configure_aws():
     """Configure AWS credentials from Streamlit secrets"""
-    aws_access_key = st.secrets["aws"]["access_key_id"]
-    aws_secret_key = st.secrets["aws"]["secret_access_key"]
-    aws_region = st.secrets["aws"]["region"]
+    aws_access_key = st.secrets["aws"]["AKIA5D4NBVNJZILXSQ23"]
+    aws_secret_key = st.secrets["aws"]["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"]
+    aws_region = st.secrets["aws"]["us-east-1"]
+
+
     
     # Configure boto3 client
     s3_client = boto3.client(
