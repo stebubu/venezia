@@ -24,8 +24,8 @@ def get_aws_credentials():
     3. User input in the sidebar
     """
     aws_credentials = {
-        'access_key_id': 'AKIA5D4NBVNJZILXSQ23',
-        'secret_access_key': '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',
+        'access_key_id': None,
+        'secret_access_key': None,
         'region': 'us-east-1'
     }
     
