@@ -93,6 +93,20 @@ def list_s3_files(bucket, prefix='', credentials=None):
         st.error(f"Error accessing S3: {str(e)}")
         return []
 
+def load_raster_from_s3(s3_path, aws_session):
+    """Load raster data from S3 using rasterio with AWS session"""
+    try:
+        with rasterio.Env(aws_session):
+            with rasterio.open(s3_path) as src:
+                data = src.read(1)  # Read the first band
+                bounds = src.bounds
+                transform = src.transform
+                crs = src.crs
+        return data, bounds, transform, crs
+    except Exception as e:
+        st.error(f"Error reading raster from S3: {str(e)}")
+        return None, None, None, None
+
 def main():
     st.title("Temporal Rainfall and Flood Map Viewer")
     
@@ -140,12 +154,22 @@ def main():
                     # Display current file path
                     st.sidebar.text(f"Current file: {current_file}")
                     
-                    with rasterio.Env(aws_session):
-                        with rasterio.open(current_file) as src:
-                            data = src.read(1)
-                            bounds = src.bounds
-                            transform = src.transform
-                            crs = src.crs
+                                      
+                    try:
+                        with rasterio.Env(aws_session):
+                            with rasterio.open(current_file) as src:
+                                data = src.read(1)
+                                bounds = src.bounds
+                                transform = src.transform
+                                crs = src.crs
+                    except ValueError as e:
+                        if "Thresholds are not sorted" in str(e):
+                            st.error("Error reading raster file: Thresholds are not sorted. This is a known issue with some GeoTIFF files from S3.")
+                            st.info("Please try a different GeoTIFF file or contact the data provider.")
+                            return
+                        else:
+                            st.error(f"Error reading raster from S3: {str(e)}")
+                            return
                     
                     # Create the map
                     m = folium.Map(
